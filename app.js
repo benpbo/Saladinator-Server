@@ -1,8 +1,5 @@
 const express = require('express'),
-    cors = require('cors'),
-    cookieParser = require('cookie-parser'),
     got = require('got'),
-    path = require('path'),
     urlExist = require('url-exist');
 
 const recipeURL = 'http://www.recipepuppy.com/api/'
@@ -10,13 +7,11 @@ const app = express();
 const PORT = process.env.PORT || 8888;
 
 app.use(express.static(__dirname + '/public'))
-    .use(cors())
-    .use(cookieParser());
 
 startServer()
 
 app.get('/recipe', getIngredients, (req, res) => {
-    getRecipes(req.ingredients).then(recipes => res.send(recipes))
+    getRecipes(req.ingredients).then(recipes => res.json(recipes))
 });
 
 function getIngredients(req, res, next) {
@@ -32,7 +27,7 @@ async function getRecipes(ingredients) {
 
     const json = JSON.parse(response.body);
     const recipes = json.results;
-    
+
     return recipes.filter(async recipe => await urlExist(recipe.href))
 }
 
