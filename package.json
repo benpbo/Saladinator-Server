@@ -9,12 +9,9 @@
   "author": "Ben Prize Bar-on, Ori Daniel",
   "license": "ISC",
   "dependencies": {
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
     "express": "^4.17.1",
     "got": "^11.5.0",
     "serve-favicon": "^2.5.0",
-    "url-exist": "^2.0.2",
-    "url-exists": "^1.0.3"
+    "url-exist": "^2.0.2"
   }
 }
