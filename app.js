@@ -14,9 +14,7 @@ app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
 
 getIP()
-    .then(ip => {
-        app.listen(PORT, console.log(`Saladinator is listening at ${ip}:${PORT}`));
-    })
+    .then(ip => app.listen(PORT, console.log(`Saladinator is listening at ${ip}:${PORT}`)))
     .catch(err => {
         console.error(err);
         console.error('server failed to start');
@@ -36,10 +34,9 @@ async function getRecipes(ingredients) {
     const recipes = json.results;
 
     let goodRecipes = [];
-    recipes.forEach(recipe => {
+    recipes.forEach(async recipe => {
         const url = recipe.href;
-        const exists = await urlExist(url);
-        if (exists) goodRecipes.push(recipe);
+        if (await urlExist(url)) goodRecipes.push(recipe)
     });
     return goodRecipes;
 }

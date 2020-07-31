@@ -4,7 +4,7 @@
   "description": "Photograph ingredients in order to get a recipe with them",
   "main": "sever.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "nodemon app.js"
   },
   "author": "Ben Prize Bar-on, Ori Daniel",
   "license": "ISC",
