@@ -1,12 +1,15 @@
-const express = require('express'),
-    got = require('got'),
-    urlExist = require('url-exist');
+const express = require('express');
+const got = require('got');
+const urlExist = require('url-exist');
+const favicon = require('serve-favicon');
+const path = require('path')
 
 const recipeURL = 'http://www.recipepuppy.com/api/'
 const app = express();
 const PORT = process.env.PORT || 8888;
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static('public'))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 startServer()
 
