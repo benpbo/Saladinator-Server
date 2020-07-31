@@ -18,8 +18,7 @@ getIP()
     })
     .catch(err => {
         console.error(err);
-        console.error('app failed to start');
-        //TODO: stop the server
+        console.error('server failed to start');
     })
 
 app.get('/recipe', (req, res) => {
@@ -37,13 +36,11 @@ async function getRecipes(ingredients) {
     const recipes = json.results;
 
     let goodRecipes = [];
-    for (recipe of recipes) {
+    recipes.forEach(recipe => {
         const url = recipe.href;
         const exists = await urlExist(url);
-        if (exists) {
-            goodRecipes.push(recipe);
-        }
-    }
+        if (exists) goodRecipes.push(recipe);
+    });
     return goodRecipes;
 }
 
