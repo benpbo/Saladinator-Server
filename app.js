@@ -5,6 +5,7 @@ const express = require('express'),
     path = require('path'),
     urlExist = require('url-exist');
 
+const recipeURL = 'http://www.recipepuppy.com/api/'
 const app = express();
 const PORT = process.env.PORT || 8888;
 
@@ -29,8 +30,7 @@ app.get('/recipe', (req, res) => {
 })
 
 async function getRecipes(ingredients) {
-    const URL = 'http://www.recipepuppy.com/api/';
-    const response = await got(URL, { searchParams: { i: ingredients } });
+    const response = await got(recipeURL, { searchParams: { i: ingredients } });
 
     const json = JSON.parse(response.body);
     const recipes = json.results;
@@ -45,7 +45,8 @@ async function getRecipes(ingredients) {
 }
 
 async function getIP() {
-    let response = await got('https://api.ipify.org');
+    const ipURL = 'https://api.ipify.org'
+    let response = await got(ipURL);
     let ip = response.body;
     return ip;
 }
