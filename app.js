@@ -13,37 +13,40 @@ app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
-getIP()
-    .then(ip => app.listen(PORT, console.log(`Saladinator is listening at ${ip}:${PORT}`)))
-    .catch(err => {
-        console.error(err);
-        console.error('server failed to start');
-    })
+startServer()
 
-app.get('/recipe', (req, res) => {
-    let ingredients = req.query.ingredients || req.query.i || '';
+app.get('/recipe', getIngredients, (req, res) => {
+    getRecipes(req.ingredients).then(recipes => res.send(recipes))
+});
 
-    getRecipes(ingredients)
-        .then(recipes => res.send(recipes));
-})
+function getIngredients(req, res, next) {
+    const ingredients = req.query.ingredients || req.query.i || '';
+    req.ingredients = ingredients.split(',')
+    next()
+}
 
 async function getRecipes(ingredients) {
-    const response = await got(recipeURL, { searchParams: { i: ingredients } });
+    const response = await got(recipeURL, {
+        searchParams: { i: ingredients.join() }
+    });
 
     const json = JSON.parse(response.body);
     const recipes = json.results;
+    
+    return recipes.filter(async recipe => await urlExist(recipe.href))
+}
 
-    let goodRecipes = [];
-    recipes.forEach(async recipe => {
-        const url = recipe.href;
-        if (await urlExist(url)) goodRecipes.push(recipe)
-    });
-    return goodRecipes;
+function startServer() {
+    getIP()
+        .then(ip => app.listen(PORT, console.log(`Saladinator is listening at ${ip}:${PORT}`)))
+        .catch(err => {
+            console.error(err);
+            console.error('server failed to start');
+        })
 }
 
 async function getIP() {
     const ipURL = 'https://api.ipify.org'
-    let response = await got(ipURL);
-    let ip = response.body;
-    return ip;
+    const response = await got(ipURL);
+    return response.body;
 }
