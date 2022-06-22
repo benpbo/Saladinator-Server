@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "got": "^11.5.0",
+    "got": "^11.8.5",
     "serve-favicon": "^2.5.0",
     "url-exist": "^2.0.2"
   }
