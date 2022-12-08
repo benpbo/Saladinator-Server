@@ -9,7 +9,7 @@
   "author": "Ben Prize Bar-on, Ori Daniel",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "got": "^11.5.0",
     "serve-favicon": "^2.5.0",
     "url-exist": "^2.0.2"
